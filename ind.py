@@ -1,20 +1,31 @@
-#!/usr/bin/env python3
+# !/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 
-def fun(n, list_n):
-    if n == 0:
-        print(list_n[1], end='')
-        for i in list_n[2:]:
-            print(f'+{i}', end='')
-        print('')
+def pretty_print(x):
+    if x[0] != len(x):
+        res = str(x[0])
+        x = x[1:]
+        for elem in x:
+            if elem:
+                res += " + " + str(elem)
+        print(res)
     else:
-        x = list_n[len(list_n) - 1]
-        if n >= x:
-            for i in range(max(1, x), n + 1):
-                fun(n - i, list_n + [i])
+        print(x[0])
 
 
-if __name__ == '__main__':
-    num = int(input('Введите число: '))
-    fun(num, [0])
+def part(pos, max_slag_pos, number):
+    global x
+    if number == 0:
+        pretty_print(x)
+        if pos != 0:
+            x = x[:pos - 1] + [0] * (len(x) - pos + 1)
+    else:
+        for i in range(1, min(max_slag_pos + 1, number + 1)):
+            x[pos] = i
+            part(pos + 1, i, number - i)
+
+
+n = int(input("Введите число: "))
+x = [0] * n
+part(0, n, n)
